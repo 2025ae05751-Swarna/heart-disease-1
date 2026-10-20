@@ -1,0 +1,30 @@
+{
+  "title": "Clinical API Service Overview",
+  "uid": "heart-risk-api",
+  "schemaVersion": 39,
+  "version": 1,
+  "refresh": "10s",
+  "panels": [
+    {
+      "id": 1,
+      "type": "timeseries",
+      "title": "Incoming request rate",
+      "targets": [{"expr": "sum(rate(http_requests_total[1m]))", "legendFormat": "requests/sec"}],
+      "gridPos": {"h": 8, "w": 12, "x": 0, "y": 0}
+    },
+    {
+      "id": 2,
+      "type": "timeseries",
+      "title": "Response time at p95",
+      "targets": [{"expr": "histogram_quantile(0.95, sum(rate(http_request_duration_seconds_bucket[5m])) by (le))", "legendFormat": "p95"}],
+      "gridPos": {"h": 8, "w": 12, "x": 12, "y": 0}
+    },
+    {
+      "id": 3,
+      "type": "stat",
+      "title": "Lifetime request count",
+      "targets": [{"expr": "sum(http_requests_total)", "legendFormat": "total"}],
+      "gridPos": {"h": 5, "w": 8, "x": 0, "y": 8}
+    }
+  ]
+}
