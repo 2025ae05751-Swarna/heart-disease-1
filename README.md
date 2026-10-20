@@ -233,6 +233,7 @@ For a Minikube setup:
 ```bash
 minikube start
 minikube image load heart-disease-mlops:latest
+kubectl apply -f k8s/namespace.yaml
 kubectl apply -f k8s/
 kubectl get pods -n heart-mlops
 kubectl get svc -n heart-mlops
