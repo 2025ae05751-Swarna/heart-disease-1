@@ -228,22 +228,26 @@ Build the image first:
 docker build -t heart-disease-mlops:latest .
 ```
 
-For a Minikube setup:
+For Docker Desktop Kubernetes:
 
 ```bash
-minikube start
-minikube image load heart-disease-mlops:latest
+kubectl config use-context docker-desktop
 kubectl apply -f k8s/namespace.yaml
 kubectl apply -f k8s/
+kubectl rollout status deployment/heart-api -n heart-mlops
 kubectl get pods -n heart-mlops
 kubectl get svc -n heart-mlops
 ```
 
-The API service is exposed as a LoadBalancer resource. If needed, start the tunnel:
+On Windows, reach the API from the host through a local port-forward (no Minikube tunnel required):
 
 ```bash
-minikube tunnel
+kubectl port-forward -n heart-mlops service/heart-api 18080:80
 ```
+
+With the command running, open `http://127.0.0.1:18080/docs`.
+
+For Minikube instead, start the cluster, load the image with `minikube image load heart-disease-mlops:latest`, and use `minikube tunnel` if you need its LoadBalancer address.
 
 Then view the generated service endpoints. Prometheus is exposed internally, while Grafana can be opened through the cluster service as needed.
 

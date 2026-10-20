@@ -1,6 +1,25 @@
 # Kubernetes deployment
 
-## Minikube
+## Docker Desktop Kubernetes
+
+```bash
+kubectl config use-context docker-desktop
+docker build -t heart-disease-mlops:latest .
+kubectl apply -f k8s/namespace.yaml
+kubectl apply -f k8s/
+kubectl get pods -n heart-mlops
+kubectl get svc -n heart-mlops
+```
+
+Wait until the API pods are ready:
+
+```bash
+kubectl rollout status deployment/heart-api -n heart-mlops
+```
+
+On Windows, the Docker Desktop LoadBalancer IP can be internal to its Kubernetes network. No Minikube or tunnel is needed; use the local port-forward below to reach the service from the host.
+
+## Minikube (optional)
 
 ```bash
 minikube start
@@ -46,5 +65,5 @@ Grafana:
 
 ```bash
 kubectl get svc grafana -n heart-mlops
-minikube service grafana -n heart-mlops
+kubectl port-forward -n heart-mlops service/grafana 3000:3000
 ```
